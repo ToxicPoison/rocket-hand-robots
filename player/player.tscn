@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://st60p8ls26lh"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_12gwn"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_x3243"]
+radius = 0.2
+height = 0.4
+radial_segments = 16
+rings = 8
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_12gwn")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+current = true
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/LeftHand"]
+mesh = SubResource("SphereMesh_x3243")
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/RightHand"]
+mesh = SubResource("SphereMesh_x3243")
+skeleton = NodePath("../../LeftHand")
