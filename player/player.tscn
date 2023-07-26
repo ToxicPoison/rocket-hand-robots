@@ -1,14 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://st60p8ls26lh"]
+[gd_scene load_steps=7 format=3 uid="uid://st60p8ls26lh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_12gwn"]
+[ext_resource type="Script" path="res://player/hand.gd" id="2_revu7"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_x3243"]
-radius = 0.2
-height = 0.4
+radius = 0.1
+height = 0.2
 radial_segments = 16
 rings = 8
 
-[node name="Player" type="Node3D"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_6y0vx"]
+top_radius = 0.02
+bottom_radius = 0.02
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ncdcm"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qc5e4"]
+radius = 0.25
+
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_12gwn")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
@@ -17,14 +27,34 @@ script = ExtResource("1_12gwn")
 current = true
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 tracker = &"left_hand"
+script = ExtResource("2_revu7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/LeftHand"]
 mesh = SubResource("SphereMesh_x3243")
 
+[node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/LeftHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.517063)
+target_position = Vector3(0, 0, -6)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/LeftHand"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1)
+mesh = SubResource("CylinderMesh_6y0vx")
+
+[node name="Area3D" type="Area3D" parent="XROrigin3D/LeftHand"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftHand/Area3D"]
+shape = SubResource("SphereShape3D_ncdcm")
+
 [node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 tracker = &"right_hand"
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/RightHand"]
 mesh = SubResource("SphereMesh_x3243")
 skeleton = NodePath("../../LeftHand")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_qc5e4")

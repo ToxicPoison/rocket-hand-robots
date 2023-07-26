@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv2ob8ybs63aj"]
+
+[sub_resource type="Gradient" id="Gradient_1qmf2"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.109718, 0.69906)
+colors = PackedColorArray(1, 1, 1, 1, 0.819584, 0.0697203, 2.88785e-07, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1bt3c"]
+gradient = SubResource("Gradient_1qmf2")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="PointVisual" type="Sprite3D"]
+billboard = 1
+double_sided = false
+texture = SubResource("GradientTexture2D_1bt3c")
